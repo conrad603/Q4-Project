@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+v<!DOCTYPE html>
 <html lang="en">
   <head>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.1/p5.js"></script>
@@ -16,28 +16,29 @@
 
 
 Javascript
-let x; 
+let row;let col
+let size =40
 
 function setup() {
-  createCanvas(800, 800);
-  x = 0;
   noLoop();
+  createCanvas(600, 600);
+  row = height/size;
+  col = width/size;
   board = []
   
 }
- function grid(row, col) {
-   row = 0;
-   col = 0;
-    for (var r=0;r<rows;r++){
-    board.push(row)
+
     
-    }
-      for (var c=0;c<cols;c++){}
-     
    
- }
+
 function draw(){
-rect(200,200,200,200), fill(0);
+  background(0);
+    for (let r=0;r<row;r++){
+      for (var c=0;c<col;c++){
+       rect(c*size, r*size, size,size)
+      }
+    }
+  
 }
 
 
