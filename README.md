@@ -20,6 +20,10 @@ let row;let col
 let size =40
 
 function setup() {
+let row;let col
+let size =40
+
+function setup() {
   noLoop();
   createCanvas(600, 600);
   row = height/size;
@@ -38,7 +42,12 @@ function draw(){
        rect(c*size, r*size, size,size)
       }
     }
-  
+}
+
+function mousePressed() {
+  mouseX/40 /// this how far left/right
+  mouseY/40 /// this is how fat up and down
+  console.log(mouseX,mouseY)
 }
 
 
