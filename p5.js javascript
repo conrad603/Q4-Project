@@ -6,12 +6,17 @@ function setup() {
   createCanvas(600, 600);
   row = height/size;
   col = width/size;
-  board = []
+  board = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]] ///bombs, -1 is bomb, 0 is nothing 
+  
+  boardtf = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]] /// 0 equals false 1 equals true row, columb 
   
 }
+/// board sets us where the mines are and board tf setups what has been clicked
+/// when clicked x,y make that cell from a 0 to a 1 on boardtf to show that it has been clicked, the show that cell and display how many mines are around it
+  
 
     
-   
+
 
 function draw(){
   background(0);
@@ -24,11 +29,21 @@ function draw(){
 }
 
 function mousePressed() {
+  drawboard()
   xlocation = mouseX/40 /// this how far left/right
   ylocation = mouseY/40 /// this is how far up and down
   fill(100); 
   rect((Math.floor(xlocation))*40 , (Math.floor(ylocation))*40,40,40);
 }
 
-/// mine generator  
+function mine(){ /// mine generator  
+  
+}
 
+function drawboard(){
+  xlocation = Math.floor(mouseX/40)
+  ylocation = Math.floor(mouseY/40)
+  boardtf[ylocation][xlocation] = 1
+  console.log(boardtf)
+
+}
