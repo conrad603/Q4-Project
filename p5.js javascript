@@ -1,32 +1,66 @@
-let row;let col
-let size =40
+let row;let col;let board;let boardtf;let minesCount
+let size = 40
 
 function setup() {
   noLoop();
   createCanvas(600, 600);
   row = height/size;
   col = width/size;
+  let xlocation = Math.floor(mouseX/40); /// this how far left/right
+  let ylocation = Math.floor(mouseY/40); /// this is how far up and down
   board = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]///bombs, -1 is bomb, 0 is nothing 
   
   boardtf = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]] /// 0 equals false 1 equals true row, columb 
-  
+  console.log(board)
   mine()
   /// checking mines
+  
+   for (let r = 0; r < row; r++) {
+    for (let c = 0; c < col; c++) {
+      if (board[r][c] !== -1) {
+        board[r][c] = countAdjacentMines(r, c);
+      }
+    }
+  }
+  
+  // Check out the board 
+  for (let r=0; r<row; r++) {
+    let thisrow = ""
+    for (let c = 0; c< col; c++) {
+      if (board[r][c] < 0) {
+        thisrow += board[r][c] + ' '; 
+      } else {
+        thisrow += ' ' + board[r][c] + ' '; 
+      }
+      
+    }
+    console.log(thisrow); 
+  }
 }
-  
-/// board sets us where the mines are and board tf setups what has been clicked
-/// when clicked x,y make that cell from a 0 to a 1 on boardtf to show that it has been clicked, the show that cell and display how many mines are around it
-  
 
-    
-
+function countAdjacentMines(r, c) {
+  let count = 0;
+  for (let i = -1; i <= 1; i++) {
+    for (let j = -1; j <= 1; j++) {
+      let x = c + j;
+      let y = r + i;
+      if (x >= 0 && x < col && y >= 0 && y < row && board[x][y] === -1) {
+        count++;
+      }
+    }
+  }
+  return count; 
+ /// x and y are inverted need to debug
+}
+/// board sets up where the mines are and boardtf setups what has been clicked minecount should be created in the setup function.
+/// when clicked x,y make that cell from a 0 to a 1 on boardtf to show that it has been clicked, 
 
 function draw(){
   background(0);
     for (let r=0;r<row;r++){
       for (var c=0;c<col;c++){
        rect(c*size, r*size, size,size)
-        
+                
       }
     }
 }
@@ -34,15 +68,22 @@ function draw(){
 
 function mousePressed() {
   drawboard()
-  xlocation = mouseX/40 /// this how far left/right
-  ylocation = mouseY/40 /// this is how far up and down
+  xlocation = Math.floor(mouseX/40) /// this how far left/right
+  ylocation = Math.floor(mouseY/40) /// this is how far up and down
   fill(100); 
-  rect((Math.floor(xlocation))*40 ,      (Math.floor(ylocation))*40,40,40);
+  rect((xlocation)*40 ,  (ylocation)*40,40,40);
+  if (board[xlocation][ylocation] == -1) {
+      console.log("You hit a mine, Game over.");
+  } else {
+    
+    
+    
+  }
 
 }
 
 function mine(){ /// mine generator  
-  for (let x = 0; x < 10; x += 1) {
+  for (let x = 0; x < 50; x += 1) {
   board[Math.floor(random(0,16))][Math.floor(random(0,16))]=-1
   }
 }
@@ -51,5 +92,5 @@ function mine(){ /// mine generator
 function drawboard(){
   xlocation = Math.floor(mouseX/40)
   ylocation = Math.floor(mouseY/40)
-  boardtf[ylocation][xlocation] = 1 
-}
+  boardtf[xlocation][ylocation] = 1 
+ }
