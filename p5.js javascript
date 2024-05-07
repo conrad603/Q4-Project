@@ -1,5 +1,6 @@
-let row;let col;let board;let boardtf;let minesCount
-let size = 40
+let row;let col;let board;let boardtf;let minesCount;let font,
+fontsize = 40;
+let size = 40;
 
 function setup() {
   noLoop();
@@ -44,13 +45,12 @@ function countAdjacentMines(r, c) {
     for (let j = -1; j <= 1; j++) {
       let x = c + j;
       let y = r + i;
-      if (x >= 0 && x < col && y >= 0 && y < row && board[x][y] === -1) {
+      if (x >= 0 && x < col && y >= 0 && y < row && board[y][x] === -1) {
         count++;
       }
     }
   }
   return count; 
- /// x and y are inverted need to debug
 }
 /// board sets up where the mines are and boardtf setups what has been clicked minecount should be created in the setup function.
 /// when clicked x,y make that cell from a 0 to a 1 on boardtf to show that it has been clicked, 
@@ -72,16 +72,14 @@ function mousePressed() {
   ylocation = Math.floor(mouseY/40) /// this is how far up and down
   fill(100); 
   rect((xlocation)*40 ,  (ylocation)*40,40,40);
-  if (board[xlocation][ylocation] == -1) {
+  if (board[ylocation][xlocation] == -1) {
       console.log("You hit a mine, Game over.");
-  } else {
-    
-    
-    
-  }
-
+  } 
+  if (board[ylocation][xlocation] == 0) {
+      text('0',xlocation*40+20,ylocation*40+20);
+    ///need to make the munber be infrount
+ }
 }
-
 function mine(){ /// mine generator  
   for (let x = 0; x < 50; x += 1) {
   board[Math.floor(random(0,16))][Math.floor(random(0,16))]=-1
