@@ -24,7 +24,7 @@ function setup() {
     }
   }
   
-  // Check out the board 
+  // check out the board 
   for (let r=0; r<row; r++) {
     let thisrow = ""
     for (let c = 0; c< col; c++) {
@@ -67,61 +67,86 @@ function draw(){
     }
 }
 
+
 function reveal0(){
-  ///need to make it reveal ajacent 0s 
+  let zero_counter = 0; 
+  for (let r=0; r<16; r++) {
+    for (let c=0; c<16; c++) {
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          let x = c + j;
+          let y = r + i;
+          if (x >= 0 && x < col && y >= 0 && y < row && board[y][x] === 0 && boardtf[r][c]==1 && boardtf[y][x] == 0)           {
+            boardtf[y][x] = 1
+            // Draw the rectangle for the zero at y,x
+            fill('black');
+            text('0',(floor(40*x)+13),(floor(40*y))+30);
+            fill(125)
+            rect((x)*40 , (y)*40,40,40);
+            zero_counter += 1;
+            
+          }
+        }
+      }
+    }
+  }
+  if (zero_counter > 0) {
+    reveal0(); 
+  }
 }
-
-
 
 function mousePressed() {
   xlocation = Math.floor(mouseX/40) /// this how far left/right
   ylocation = Math.floor(mouseY/40) /// this is how far up and down
   fill(125); 
-  rect((xlocation)*40 ,  (ylocation)*40,40,40);
+  rect((xlocation)*40 , (ylocation)*40,40,40);
   textSize(30)
   fill('black');
   if (board[ylocation][xlocation] == -1) {
-      console.log("You hit a mine, Game over.");
+    boardtf[ylocation][xlocation] = 1; 
+    console.log("You hit a mine, Game over.");
+    text('💣',xlocation*40+5,ylocation*40+30);
   } 
-  if (board[ylocation][xlocation] == -1) {
-      text('💣',xlocation*40+5,ylocation*40+30);
-  }
   if (board[ylocation][xlocation] == 0) {
+    boardtf[ylocation][xlocation] = 1
       text('0',xlocation*40+13,ylocation*40+30);
-    
+    reveal0(); 
   }
   if (board[ylocation][xlocation] == 1) {
+    boardtf[ylocation][xlocation] = 1
       text('1',xlocation*40+13,ylocation*40+30);
   }
   if (board[ylocation][xlocation] == 2) {
+    boardtf[ylocation][xlocation] = 1
       text('2',xlocation*40+13,ylocation*40+30);
   }
   if (board[ylocation][xlocation] == 3) {
+    boardtf[ylocation][xlocation] = 1
       text('3',xlocation*40+13,ylocation*40+30);
   }
   if (board[ylocation][xlocation] == 4) {
+    boardtf[ylocation][xlocation] = 1
       text('4',xlocation*40+13,ylocation*40+30);
   }
   if (board[ylocation][xlocation] == 5) {
+    boardtf[ylocation][xlocation] = 1
       text('5',xlocation*40+13,ylocation*40+30);
   }
   if (board[ylocation][xlocation] == 6) {
+    boardtf[ylocation][xlocation] = 1
       text('6',xlocation*40+13,ylocation*40+30);
   }
   if (board[ylocation][xlocation] == 7) {
+    boardtf[ylocation][xlocation] = 1
       text('7',xlocation*40+13,ylocation*40+30);
   }
   if (board[ylocation][xlocation] == 8) {
+    boardtf[ylocation][xlocation] = 1
       text('8',xlocation*40+13,ylocation*40+30);
-  }
-  
-  
-  
-    ///bomb emjie 
  }
-
+}
 function mine(){ /// mine generator  
-  for (let x = 0; x < 50; x += 1) {
+  for (let x = 0; x < 15; x += 1) {
   board[Math.floor(random(0,16))][Math.floor(random(0,16))]=-1
   }
 }
