@@ -12,7 +12,13 @@ function setup() {
   board = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]///bombs, -1 is bomb, 0 is nothing 
   
   boardtf = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]] /// 0 equals false 1 equals true row, columb 
-  console.log(board)
+  ///console.log(board)
+
+boardmine()
+}
+
+function boardmine(){
+  if (mousePressed ) 
   mine()
   /// checking mines
   
@@ -35,7 +41,7 @@ function setup() {
       }
       
     }
-    console.log(thisrow); 
+    //console.log(thisrow); 
   }
 function countAdjacentMines(r, c) {
   let count = 0;
@@ -52,7 +58,6 @@ function countAdjacentMines(r, c) {
 }
 
 }
-
 
 /// board sets up where the mines are and boardtf setups what has been clicked minecount should be created in the setup function.
 /// when clicked x,y make that cell from a 0 to a 1 on boardtf to show that it has been clicked, 
@@ -95,7 +100,10 @@ function reveal0(){
   }
 }
 
+
+
 function mousePressed() {
+    if (mouseButton === LEFT) {
   xlocation = Math.floor(mouseX/40) /// this how far left/right
   ylocation = Math.floor(mouseY/40) /// this is how far up and down
   fill(125); 
@@ -111,7 +119,7 @@ function mousePressed() {
     boardtf[ylocation][xlocation] = 1
       text('0',xlocation*40+13,ylocation*40+30);
     reveal0(); 
-  }
+  }  
   if (board[ylocation][xlocation] == 1) {
     boardtf[ylocation][xlocation] = 1
       text('1',xlocation*40+13,ylocation*40+30);
@@ -144,9 +152,15 @@ function mousePressed() {
     boardtf[ylocation][xlocation] = 1
       text('8',xlocation*40+13,ylocation*40+30);
  }
-}
+    }
+    if (mouseButton === RIGHT) {
+      textSize(30)
+      text('🚩', (Math.floor(mouseX/40)*40+9), (Math.floor(mouseY/40)*40+30))
+       }
+    }
+
 function mine(){ /// mine generator  
-  for (let x = 0; x < 15; x += 1) {
+  for (let x = 0; x < 20; x += 1) {
   board[Math.floor(random(0,16))][Math.floor(random(0,16))]=-1
   }
 }
