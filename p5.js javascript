@@ -1,195 +1,249 @@
-let row;let col;let board;let boardtf;let minesCount;let font,
-fontsize = 40;
+let row;
+let col;
+let board;
+let boardtf;
+let minesCount;
+let font, fontsize = 40;
 let size = 40;
-let nomine = 0;
+let move = 0;
 
 function setup() {
   noLoop();
   createCanvas(600, 600);
-  row = height/size;
-  col = width/size;
-  let xlocation = Math.floor(mouseX/40); /// this how far left/right
-  let ylocation = Math.floor(mouseY/40); /// this is how far up and down
-  board = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]///bombs, -1 is bomb, 0 is nothing 
-  
-  boardtf = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]] /// 0 equals false 1 equals true row, columb 
-  ///console.log(board)
+  row = height / size;
+  col = width / size;
+  let xlocation = Math.floor(mouseX / 40); /// this how far left/right
+  let ylocation = Math.floor(mouseY / 40); /// this is how far up and down
+  clearboard();
 
-boardmine()
+  boardmine();
 }
 
-function boardmine(){
-  if (mousePressed ) 
-  mine()
-  nomine = 0 
+function boardmine() {
+  // Generates a random game board
+  mine();
   /// checking mines
-  
-   for (let r = 0; r < row; r++) {
+
+  for (let r = 0; r < row; r++) {
     for (let c = 0; c < col; c++) {
       if (board[r][c] !== -1) {
         board[r][c] = countAdjacentMines(r, c);
       }
     }
   }
-  
-  // check out the board 
-  for (let r=0; r<row; r++) {
-    let thisrow = ""
-    for (let c = 0; c< col; c++) {
-      if (board[r][c] < 0) {
-        thisrow += board[r][c] + ' '; 
-      } else {
-        thisrow += ' ' + board[r][c] + ' '; 
-      }
-      
-    }
-  console.log(thisrow); 
-  }
-function countAdjacentMines(r, c) {
-  let count = 0;
-  for (let i = -1; i <= 1; i++) {
-    for (let j = -1; j <= 1; j++) {
-      let x = c + j;
-      let y = r + i;
-      if (x >= 0 && x < col && y >= 0 && y < row && board[y][x] === -1) {
-        count++;
-      }
-    }
-  }
-  return count; 
-}
 
+  // check out the board
+  for (let r = 0; r < row; r++) {
+    let thisrow = "";
+    for (let c = 0; c < col; c++) {
+      if (board[r][c] < 0) {
+        thisrow += board[r][c] + " ";
+      } else {
+        thisrow += " " + board[r][c] + " ";
+      }
+    }
+    console.log(thisrow);
+  }
+  function countAdjacentMines(r, c) {
+    let count = 0;
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        let x = c + j;
+        let y = r + i;
+        if (x >= 0 && x < col && y >= 0 && y < row && board[y][x] === -1) {
+          count++;
+        }
+      }
+    }
+    return count;
+  }
 }
 
 /// board sets up where the mines are and boardtf setups what has been clicked minecount should be created in the setup function.
-/// when clicked x,y make that cell from a 0 to a 1 on boardtf to show that it has been clicked, 
+/// when clicked x,y make that cell from a 0 to a 1 on boardtf to show that it has been clicked,
 
-function draw(){
+function draw() {
   background(0);
-    for (let r=0;r<row;r++){
-      for (var c=0;c<col;c++){
-       rect(c*size, r*size, size,size)
-                
-      }
+  for (let r = 0; r < row; r++) {
+    for (var c = 0; c < col; c++) {
+      rect(c * size, r * size, size, size);
     }
+  }
 }
 
-
-function reveal0(){
-  let zero_counter = 0; 
-  for (let r=0; r<16; r++) {
-    for (let c=0; c<16; c++) {
+function reveal0() {
+  let zero_counter = 0;
+  for (let r = 0; r < 16; r++) {
+    for (let c = 0; c < 16; c++) {
       for (let i = -1; i <= 1; i++) {
         for (let j = -1; j <= 1; j++) {
           let x = c + j;
           let y = r + i;
-          if (x >= 0 && x < col && y >= 0 && y < row && board[y][x] === 0 && boardtf[r][c]==1 && boardtf[y][x] == 0)           {
-            boardtf[y][x] = 1
+          if (
+            x >= 0 &&
+            x < col &&
+            y >= 0 &&
+            y < row &&
+            board[y][x] === 0 &&
+            boardtf[r][c] == 1 &&
+            boardtf[y][x] == 0
+          ) {
+            boardtf[y][x] = 1;
             // Draw the rectangle for the zero at y,x
-            fill('black');
-            text('0',(floor(40*x)+13),(floor(40*y))+30);
-            fill(125)
-            rect((x)*40 , (y)*40,40,40);
+            fill("black");
+            text("0", floor(40 * x) + 13, floor(40 * y) + 30);
+            fill(125);
+            rect(x * 40, y * 40, 40, 40);
             zero_counter += 1;
-            
           }
         }
       }
     }
   }
   if (zero_counter > 0) {
-    reveal0(); 
+    reveal0();
   }
 }
 
+function clearboard() {
+  board = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ]; ///bombs, -1 is bomb, 0 is nothing
 
+  boardtf = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ];
+}
 
 function mousePressed() {
-    if (mouseButton === LEFT) {
-  xlocation = Math.floor(mouseX/40) /// this how far left/right
-  ylocation = Math.floor(mouseY/40) /// this is how far up and down
-  fill(125); 
-  rect((xlocation)*40 , (ylocation)*40,40,40);
-  textSize(30)
-  fill('black');
-  nomine += 1 
-  if (board[ylocation][xlocation] == -1) {
-      if (nomine <= 1){
-        board = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]///bombs, -1 is bomb, 0 is nothing 
-  
-  boardtf = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
-        boardmine()
-      }
-    boardtf[ylocation][xlocation] = 1; 
-    console.log("You hit a mine, Game over.");
-    text('💣',xlocation*40+5,ylocation*40+30);
-  } 
-  if (board[ylocation][xlocation] == 0) {
-    boardtf[ylocation][xlocation] = 1
-      text('0',xlocation*40+13,ylocation*40+30);
-    reveal0(); 
-  }  
-  if (board[ylocation][xlocation] == 1) {
-    if (nomine <= 1){
-        board = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]///bombs, -1 is bomb, 0 is nothing 
-  
-  boardtf = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
-        boardmine()
-      }
-    boardtf[ylocation][xlocation] = 1
-      text('1',xlocation*40+13,ylocation*40+30);
-  }
-  if (board[ylocation][xlocation] == 2) {
-    if (nomine <= 1){
-        board = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]///bombs, -1 is bomb, 0 is nothing 
-  
-  boardtf = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
-        boardmine()
-      }
-    boardtf[ylocation][xlocation] = 1
-      text('2',xlocation*40+13,ylocation*40+30);
-  }
-  if (board[ylocation][xlocation] == 3) {
-    if (nomine <= 1){
-        board = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]///bombs, -1 is bomb, 0 is nothing 
-  
-  boardtf = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]]
-        boardmine()
-      }
-    boardtf[ylocation][xlocation] = 1
-      text('3',xlocation*40+13,ylocation*40+30);
-  }
-  if (board[ylocation][xlocation] == 4) {
-    boardtf[ylocation][xlocation] = 1
-      text('4',xlocation*40+13,ylocation*40+30);
-  }
-  if (board[ylocation][xlocation] == 5) {
-    boardtf[ylocation][xlocation] = 1
-      text('5',xlocation*40+13,ylocation*40+30);
-  }
-  if (board[ylocation][xlocation] == 6) {
-    boardtf[ylocation][xlocation] = 1
-      text('6',xlocation*40+13,ylocation*40+30);
-  }
-  if (board[ylocation][xlocation] == 7) {
-    boardtf[ylocation][xlocation] = 1
-      text('7',xlocation*40+13,ylocation*40+30);
-  }
-  if (board[ylocation][xlocation] == 8) {
-    boardtf[ylocation][xlocation] = 1
-      text('8',xlocation*40+13,ylocation*40+30);
- }
-    }
-    if (mouseButton === RIGHT) {
-      textSize(30)
-      text('🚩', (Math.floor(mouseX/40)*40+9), (Math.floor(mouseY/40)*40+30))
-       }
-    }
+  if (mouseButton === LEFT) {
+    xlocation = Math.floor(mouseX / 40); /// this how far left/right
+    ylocation = Math.floor(mouseY / 40); /// this is how far up and down
+    fill(125);
+    rect(xlocation * 40, ylocation * 40, 40, 40);
+    textSize(30);
+    fill("black");
+    move += 1;
 
-function mine(){ /// mine generator  
-  for (let x = 0; x < 20; x += 1) {
-  board[Math.floor(random(0,16))][Math.floor(random(0,16))]=-1
+    if (move == 1) {
+      // keep generating new boards until the click was a zero 
+      while ( board[ylocation][xlocation] != 0 ) {
+        clearboard();
+        boardmine();
+      }
+    }
+    if (board[ylocation][xlocation] == -1) {
+      if (move != 1) {
+        boardtf[ylocation][xlocation] = 1;
+        console.log("You hit a mine, Game over.");
+        text("💣", xlocation * 40 + 5, ylocation * 40 + 30);
+      }
+    }
+    if (board[ylocation][xlocation] == 0) {
+      boardtf[ylocation][xlocation] = 1;
+      text("0", xlocation * 40 + 13, ylocation * 40 + 30);
+      reveal0();
+    }
+    if (board[ylocation][xlocation] == 1) {
+      if (move == 1) {
+        clearboard();
+        boardmine();
+      }
+    }
+    if (board[ylocation][xlocation] == 1) {
+      if (move != 1) {
+        boardtf[ylocation][xlocation] = 1;
+        text("1", xlocation * 40 + 13, ylocation * 40 + 30);
+      }
+    }
+    if (board[ylocation][xlocation] == 2) {
+      if (move == 1) {
+        clearboard();
+        boardmine();
+      }
+    }
+    if (board[ylocation][xlocation] == 2) {
+      if (move != 1) {
+        boardtf[ylocation][xlocation] = 1;
+        text("2", xlocation * 40 + 13, ylocation * 40 + 30);
+      }
+    }
+    if (board[ylocation][xlocation] == 3) {
+      if (move == 1) {
+        clearboard();
+        boardmine();
+      }
+    }
+    if (board[ylocation][xlocation] == 3) {
+      if (move != 1) {
+        boardtf[ylocation][xlocation] = 1;
+        text("3", xlocation * 40 + 13, ylocation * 40 + 30);
+      }
+    }
+    if (board[ylocation][xlocation] == 4) {
+      boardtf[ylocation][xlocation] = 1;
+      text("4", xlocation * 40 + 13, ylocation * 40 + 30);
+    }
+    if (board[ylocation][xlocation] == 5) {
+      boardtf[ylocation][xlocation] = 1;
+      text("5", xlocation * 40 + 13, ylocation * 40 + 30);
+    }
+    if (board[ylocation][xlocation] == 6) {
+      boardtf[ylocation][xlocation] = 1;
+      text("6", xlocation * 40 + 13, ylocation * 40 + 30);
+    }
+    if (board[ylocation][xlocation] == 7) {
+      boardtf[ylocation][xlocation] = 1;
+      text("7", xlocation * 40 + 13, ylocation * 40 + 30);
+    }
+    if (board[ylocation][xlocation] == 8) {
+      boardtf[ylocation][xlocation] = 1;
+      text("8", xlocation * 40 + 13, ylocation * 40 + 30);
+    }
+  }
+  if (mouseButton === RIGHT) {
+    textSize(30);
+    text(
+      "🚩",
+      Math.floor(mouseX / 40) * 40 + 9,
+      Math.floor(mouseY / 40) * 40 + 30
+    );
   }
 }
 
-
+function mine() {
+  /// mine generator
+  for (let x = 0; x < 20; x += 1) {
+    board[Math.floor(random(0, 16))][Math.floor(random(0, 16))] = -1;
+  }
+}
