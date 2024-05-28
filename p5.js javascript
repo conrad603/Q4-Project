@@ -8,10 +8,12 @@ let font,
 let size = 40;
 let move = 0;
 let bomb;
+let userClick;
 
 function setup() {
   noLoop();
   createCanvas(600, 600);
+  userClick=true;
   row = height / size;
   col = width / size;
   let xlocation = Math.floor(mouseX / 40); /// this how far left/right
@@ -107,7 +109,6 @@ function reveal0() {
   }
 }
 
-
 function clearboard() {
   board = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -148,13 +149,19 @@ function clearboard() {
   ];
 }
 
-function preload(){
-  bomb= loadSound("explosion-42132.mp3")
-  lose= loadSound("wah-wah-sad-trombone-6347.mp3")
+function preload() {
+  bomb = loadSound("explosion-42132.mp3");
+  lose = loadSound("wah-wah-sad-trombone-6347.mp3");
 }
-
-
+function loseSequence() {
+  fill(120, 0, 0);
+  rect(0, 150, 600, 300);
+  fill("black");
+  text("You hit a mine, Game over!", 150, 300);
+ }
 function mousePressed() {
+  if (!userClick)
+    return;
   if (mouseButton === LEFT) {
     xlocation = Math.floor(mouseX / 40); /// this how far left/right
     ylocation = Math.floor(mouseY / 40); /// this is how far up and down
@@ -177,10 +184,8 @@ function mousePressed() {
         text("💣", xlocation * 40 + 5, ylocation * 40 + 30);
         bomb.play();
         lose.play();
-        fill(120, 0, 0);
-        rect(0, 150, 600, 300);
-        fill("black")
-        text("You hit a mine, Game over!", 150 ,300)
+        setTimeout(loseSequence, 4000);
+        userClick=false;
       }
     }
     if (board[ylocation][xlocation] == 0) {
