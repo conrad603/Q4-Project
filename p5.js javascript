@@ -2,10 +2,12 @@ let row;
 let col;
 let board;
 let boardtf;
-let minesCount;
-let font, fontsize = 40;
+let mombunt;
+let font,
+  fontsize = 40;
 let size = 40;
 let move = 0;
+let bomb;
 
 function setup() {
   noLoop();
@@ -42,7 +44,7 @@ function boardmine() {
         thisrow += " " + board[r][c] + " ";
       }
     }
-    console.log(thisrow);
+    // console.log(thisrow);
   }
   function countAdjacentMines(r, c) {
     let count = 0;
@@ -90,10 +92,10 @@ function reveal0() {
           ) {
             boardtf[y][x] = 1;
             // Draw the rectangle for the zero at y,x
-            fill("black");
-            text("0", floor(40 * x) + 13, floor(40 * y) + 30);
             fill(125);
             rect(x * 40, y * 40, 40, 40);
+            fill("black");
+            text("0", floor(40 * x) + 13, floor(40 * y) + 30);
             zero_counter += 1;
           }
         }
@@ -104,6 +106,7 @@ function reveal0() {
     reveal0();
   }
 }
+
 
 function clearboard() {
   board = [
@@ -145,6 +148,12 @@ function clearboard() {
   ];
 }
 
+function preload(){
+  bomb= loadSound("explosion-42132.mp3")
+  lose= loadSound("wah-wah-sad-trombone-6347.mp3")
+}
+
+
 function mousePressed() {
   if (mouseButton === LEFT) {
     xlocation = Math.floor(mouseX / 40); /// this how far left/right
@@ -156,8 +165,8 @@ function mousePressed() {
     move += 1;
 
     if (move == 1) {
-      // keep generating new boards until the click was a zero 
-      while ( board[ylocation][xlocation] != 0 ) {
+      // keep generating new boards until the click was a zero
+      while (board[ylocation][xlocation] != 0) {
         clearboard();
         boardmine();
       }
@@ -165,8 +174,13 @@ function mousePressed() {
     if (board[ylocation][xlocation] == -1) {
       if (move != 1) {
         boardtf[ylocation][xlocation] = 1;
-        console.log("You hit a mine, Game over.");
         text("💣", xlocation * 40 + 5, ylocation * 40 + 30);
+        bomb.play();
+        lose.play();
+        fill(120, 0, 0);
+        rect(0, 150, 600, 300);
+        fill("black")
+        text("You hit a mine, Game over!", 150 ,300)
       }
     }
     if (board[ylocation][xlocation] == 0) {
@@ -175,40 +189,17 @@ function mousePressed() {
       reveal0();
     }
     if (board[ylocation][xlocation] == 1) {
-      if (move == 1) {
-        clearboard();
-        boardmine();
-      }
-    }
-    if (board[ylocation][xlocation] == 1) {
-      if (move != 1) {
-        boardtf[ylocation][xlocation] = 1;
-        text("1", xlocation * 40 + 13, ylocation * 40 + 30);
-      }
+      boardtf[ylocation][xlocation] = 1;
+      text("1", xlocation * 40 + 13, ylocation * 40 + 30);
     }
     if (board[ylocation][xlocation] == 2) {
-      if (move == 1) {
-        clearboard();
-        boardmine();
-      }
+      boardtf[ylocation][xlocation] = 1;
+      text("2", xlocation * 40 + 13, ylocation * 40 + 30);
     }
-    if (board[ylocation][xlocation] == 2) {
-      if (move != 1) {
-        boardtf[ylocation][xlocation] = 1;
-        text("2", xlocation * 40 + 13, ylocation * 40 + 30);
-      }
-    }
+
     if (board[ylocation][xlocation] == 3) {
-      if (move == 1) {
-        clearboard();
-        boardmine();
-      }
-    }
-    if (board[ylocation][xlocation] == 3) {
-      if (move != 1) {
-        boardtf[ylocation][xlocation] = 1;
-        text("3", xlocation * 40 + 13, ylocation * 40 + 30);
-      }
+      boardtf[ylocation][xlocation] = 1;
+      text("3", xlocation * 40 + 13, ylocation * 40 + 30);
     }
     if (board[ylocation][xlocation] == 4) {
       boardtf[ylocation][xlocation] = 1;
