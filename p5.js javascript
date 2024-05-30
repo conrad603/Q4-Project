@@ -13,9 +13,10 @@ let input;
 
 function setup() {
   noLoop();
+  //while (input != "easy" || input != "hard"){
+  input = prompt("Do you want more mines (easy) or less mines (hard)?")///}
   createCanvas(600, 600);
-  
-  userClick=true;
+  userClick = true;
   row = height / size;
   col = width / size;
   let xlocation = Math.floor(mouseX / 40); /// this how far left/right
@@ -24,6 +25,7 @@ function setup() {
 
   boardmine();
 }
+
 
 function boardmine() {
   // Generates a random game board
@@ -162,7 +164,7 @@ function loseSequence() {
   text("You hit a mine, Game over!", 150, 300);
 }
 
-function endgame(){
+function endgame() {
   for (let r = 0; r < row; r++) {
     for (let c = 0; c < col; c++) {
       if (board[r][c] === -1) {
@@ -176,10 +178,8 @@ function endgame(){
   }
 }
 
-
 function mousePressed() {
-  if (!userClick)
-    return;
+  if (!userClick) return;
   if (mouseButton === LEFT) {
     xlocation = Math.floor(mouseX / 40); /// this how far left/right
     ylocation = Math.floor(mouseY / 40); /// this is how far up and down
@@ -202,10 +202,9 @@ function mousePressed() {
         text("💣", xlocation * 40 + 5, ylocation * 40 + 30);
         bomb.play();
         lose.play();
-        setTimeout(endgame,1500 );
+        setTimeout(endgame, 1500);
         setTimeout(loseSequence, 4000);
-        userClick=false;
-        
+        userClick = false;
       }
     }
     if (board[ylocation][xlocation] == 0) {
@@ -258,8 +257,14 @@ function mousePressed() {
 }
 
 function mine() {
-  /// mine generator
-  for (let x = 0; x < 40; x += 1) {
-    board[Math.floor(random(0, 16))][Math.floor(random(0, 16))] = -1;
+  if (input == "easy") {
+    for (let x = 0; x < 25; x += 1) {
+      board[Math.floor(random(0, 16))][Math.floor(random(0, 16))] = -1;
+    }
+  }
+  if (input == "hard") {
+    for (let x = 0; x < 45; x += 1) {
+      board[Math.floor(random(0, 16))][Math.floor(random(0, 16))] = -1;
+    }
   }
 }
