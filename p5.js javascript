@@ -9,13 +9,16 @@ let size = 40;
 let move = 0;
 let bomb;
 let userClick;
-let input;
-
+let userinput;
+let gametime;
+let sub;
 function setup() {
-  noLoop();
-  //while (input != "easy" || input != "hard"){
-  input = prompt("Do you want more mines (easy) or less mines (hard)?")///}
+  noLoop(); 
+  while (userinput != "easy" && userinput != "hard"){
+    userinput = prompt("Do you want more mines (easy) or less mines (hard)?")
+  }
   createCanvas(600, 600);
+  frameRate(30)
   userClick = true;
   row = height / size;
   col = width / size;
@@ -28,7 +31,7 @@ function setup() {
 
 
 function boardmine() {
-  // Generates a random game board
+  sub = int(millis() / 1000)
   mine();
   /// checking mines
 
@@ -178,6 +181,10 @@ function endgame() {
   }
 }
 
+function gamestoppage(){
+        text("It took you " + (int(millis()/1000) - sub) + " seconds",200, 350 )
+        }
+
 function mousePressed() {
   if (!userClick) return;
   if (mouseButton === LEFT) {
@@ -204,6 +211,7 @@ function mousePressed() {
         lose.play();
         setTimeout(endgame, 1500);
         setTimeout(loseSequence, 4000);
+        setTimeout(gamestoppage,4000)
         userClick = false;
       }
     }
@@ -257,12 +265,12 @@ function mousePressed() {
 }
 
 function mine() {
-  if (input == "easy") {
+  if (userinput == "easy") {
     for (let x = 0; x < 25; x += 1) {
       board[Math.floor(random(0, 16))][Math.floor(random(0, 16))] = -1;
     }
   }
-  if (input == "hard") {
+  if (userinput == "hard") {
     for (let x = 0; x < 45; x += 1) {
       board[Math.floor(random(0, 16))][Math.floor(random(0, 16))] = -1;
     }
