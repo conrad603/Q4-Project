@@ -10,8 +10,8 @@ let move = 0;
 let bomb;
 let userClick;
 let userinput;
-let gametime;
 let sub;
+let gametime;
 function setup() {
   noLoop(); 
   while (userinput != "easy" && userinput != "hard"){
@@ -182,8 +182,11 @@ function endgame() {
 }
 
 function gamestoppage(){
-        text("It took you " + (int(millis()/1000) - sub) + " seconds",200, 350 )
+        gametime = ((int(millis()/1000)) - sub)
         }
+function gm(){
+  text("It took you " + gametime + " seconds",200, 350 )
+}
 
 function mousePressed() {
   if (!userClick) return;
@@ -211,8 +214,10 @@ function mousePressed() {
         lose.play();
         setTimeout(endgame, 1500);
         setTimeout(loseSequence, 4000);
-        setTimeout(gamestoppage,4000)
+        gamestoppage();
+        setTimeout(gm, 4000);
         userClick = false;
+        
       }
     }
     if (board[ylocation][xlocation] == 0) {
